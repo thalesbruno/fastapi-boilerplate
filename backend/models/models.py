@@ -1,6 +1,6 @@
-from sqlalchemy import ForeignKey, Integer, String, Boolean, Column
+from sqlalchemy import ForeignKey, Integer, String, Column, Boolean
 from sqlalchemy.orm import relationship
-from .database import Base
+from database.setup import Base
 
 
 class User(Base):
@@ -12,6 +12,7 @@ class User(Base):
     is_active = Column(Boolean, default=True)
 
     items = relationship("Item", back_populates="owner")
+
 
 class Item(Base):
     __tablename__ = "items"

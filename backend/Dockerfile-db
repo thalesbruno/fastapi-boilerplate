@@ -1,0 +1,5 @@
+FROM postgres:12.4
+
+# VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+
+EXPOSE 5432
