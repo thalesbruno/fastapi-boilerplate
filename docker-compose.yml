@@ -12,12 +12,7 @@ services:
         links:
             - "db:app"
     db:
-        # build:
-        #     context: ./backend
-        #     dockerfile: Dockerfile-db
-        image: postgres
-        # ports:
-        #     - 5432:5432
+        image: postgres:12.4
         restart: always
         environment:
             POSTGRES_PASSWORD: example
