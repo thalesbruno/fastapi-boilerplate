@@ -34,3 +34,5 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 @router.post("/users/{user_id}/items", response_model=schemas.Item, tags=['users'])
 def create_item_for_user(item: schemas.ItemCreate, user_id: int, db: Session = Depends(get_db)):
     return crud.create_user_item(db=db, item=item, user_id=user_id)
+
+# Create put and delete path operation functions

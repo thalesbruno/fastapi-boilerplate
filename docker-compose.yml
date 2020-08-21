@@ -10,18 +10,18 @@ services:
         depends_on:
             - db
             - tests
-        links:
-            - "db:app"
     tests:
         build:
             context: ./backend/app
             dockerfile: Dockerfile-tests
+        volumes:
+            - ./backend/app:/app
         depends_on: 
             - db
-        links:
-            - "db:app"
     db:
         image: postgres:12.4
         restart: always
         environment:
-            POSTGRES_PASSWORD: example
+            # if user, pass, and db changes, need to remove previous containers # docker-compose rm -vf
+            - POSTGRES_USER=app
+            - POSTGRES_PASSWORD=app
