@@ -1,10 +1,31 @@
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
+from database.setup import Base
+from database.session import get_db
 from ..main import app
+
+SQLALCHEMY_DATABASE_URL = "postgresql://app:app@db:5432/test_app"
+
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
+TestingSessionLocal = sessionmaker(
+    autocommit=False, autoflush=False, bind=engine)
+
+Base.metadata.create_all(bind=engine)
+
+
+def override_get_db():
+    try:
+        db = TestingSessionLocal()
+        yield db
+    finally:
+        db.close()
+
+
+app.dependency_overrides[get_db] = override_get_db
 
 client = TestClient(app)
 
-
-# Get the last user id created on db and instatiate it +1 in the tests
 
 def test_create_user():
     response = client.post(
@@ -14,7 +35,7 @@ def test_create_user():
     assert response.status_code == 200
     assert response.json() == {
         "email": "test@app.com",
-        "id": 10,
+        "id": 1,
         "is_active": True,
         "items": []
     }
@@ -26,11 +47,20 @@ def test_read_users():
 
 
 def test_read_user():
-    response = client.get("/users/10")
+    user = client.get
+    response = client.get("/users/1")
     assert response.status_code == 200
     assert response.json() == {
         "email": "test@app.com",
-        "id": 10,
+        "id": 1,
         "is_active": True,
         "items": []
+    }
+
+
+def test_delete_user():
+    response = client.delete("/users/1")
+    assert response.status_code == 200
+    assert response.json() == {
+        "detail": f"User with id 1 successfully deleted"
     }

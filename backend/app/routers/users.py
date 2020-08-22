@@ -35,4 +35,11 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 def create_item_for_user(item: schemas.ItemCreate, user_id: int, db: Session = Depends(get_db)):
     return crud.create_user_item(db=db, item=item, user_id=user_id)
 
-# Create put and delete path operation functions
+
+@router.delete("/users/{user_id}", tags=['users'])
+def remove_user(user_id: int, db: Session = Depends(get_db)):
+    db_user = crud.get_user(db=db, user_id=user_id)
+    if not db_user:
+        raise HTTPException(status_code=400, detail="User not found")
+    crud.delete_user(db=db, user=db_user)
+    return {"detail": f"User with id {db_user.id} successfully deleted"}
