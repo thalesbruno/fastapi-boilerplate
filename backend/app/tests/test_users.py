@@ -30,10 +30,11 @@ client = TestClient(app)
 def test_create_user():
     response = client.post(
         "/users",
-        json={"email": "test@app.com", "password": "password"}
+        json={"username": "test", "email": "test@app.com", "password": "password"}
     )
     assert response.status_code == 200
     assert response.json() == {
+        "username": "test",
         "email": "test@app.com",
         "id": 1,
         "is_active": True,
@@ -44,7 +45,7 @@ def test_create_user():
 def test_create_existent_user():
     response = client.post(
         "/users",
-        json={"email": "test@app.com", "password": "password"}
+        json={"username": "test", "email": "test@app.com", "password": "password"}
     )
     assert response.status_code == 400
     assert response.json() == {
@@ -62,6 +63,7 @@ def test_read_user():
     response = client.get("/users/1")
     assert response.status_code == 200
     assert response.json() == {
+        "username": "test",
         "email": "test@app.com",
         "id": 1,
         "is_active": True,
