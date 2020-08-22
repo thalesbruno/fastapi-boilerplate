@@ -14,3 +14,4 @@ pycodestyle==2.6.0
 toml==0.10.1
 pytest==6.0.1
 requests==2.24.0
+python-multipart==0.0.5
