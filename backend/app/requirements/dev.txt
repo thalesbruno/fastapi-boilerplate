@@ -11,3 +11,4 @@ websockets==8.1
 psycopg2==2.8.5
 pytest==6.0.1
 requests==2.24.0
+python-multipart==0.0.5

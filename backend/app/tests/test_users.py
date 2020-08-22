@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
 from database.setup import Base
-from database.session import get_db
+from api.deps import get_db
 from ..main import app
 
 SQLALCHEMY_DATABASE_URL = "postgresql://app:app@db:5432/test_app"

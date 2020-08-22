@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from crud import crud
 from typing import List
 from schemas import schemas
-from database.session import get_db
+from api.deps import get_db
 from sqlalchemy.orm import Session
 
 
