@@ -1,8 +1,8 @@
-# FastAPI + React.js + PostgreSQL
-A boilerplate application code using FastAPI, ReactJS and PostgreSQL
+# FastAPI boilerplate code (with PostgreSQL)
+A boilerplate RESTFul application code using FastAPI and PostgreSQL
 
 ## Structure
-The backend is a RESTful API application built in FastAPI and a PostgreSQL database. The frontend will be a React.js web application.
+The backend is a RESTful API application built in FastAPI and a PostgreSQL database.
 
 ## Usage
 
@@ -10,7 +10,19 @@ The backend is a RESTful API application built in FastAPI and a PostgreSQL datab
 To run the application you need to have `Docker` and `docker-compose` installed. So, just execute from the root directory:
 
 ```bash
-docker-compose up -d
+docker-compose up
+```
+
+#### Create the test_app database
+The tests will fail at the first time we run `docker-compose up`, because the creation of `test_app` database is not present in the images build process. There's an [issue](https://github.com/thalesbruno/fastapi-boilerplate/issues/6) for fix this already.
+
+At the moment, we need to execute the command below to create it
+```docker
+docker exec fastapi-boilerplate_db_1 psql -U app -c "create database test_app with owner app;"
+```
+To drop:
+```docker
+docker exec fastapi-boilerplate_db_1 psql -U app -c "drop database test_app;"
 ```
 
 <!--
