@@ -20,7 +20,11 @@ At the moment, we need to execute the command below to create it
 ```docker
 docker exec fastapi-boilerplate_db_1 psql -U app -c "create database test_app with owner app;"
 ```
-To drop:
+So, restart the tests container to run the tests again:
+```docker
+docker-compose restart tests
+```
+To drop it:
 ```docker
 docker exec fastapi-boilerplate_db_1 psql -U app -c "drop database test_app;"
 ```
