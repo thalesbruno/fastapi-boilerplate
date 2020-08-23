@@ -1,4 +1,4 @@
-# FastAPI boilerplate code (with PostgreSQL)
+# FastAPI boilerplate (with PostgreSQL)
 A boilerplate RESTFul application code using FastAPI and PostgreSQL
 
 ## Structure
