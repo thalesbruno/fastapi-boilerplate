@@ -19,11 +19,6 @@ def get_db():
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-# def fake_decode_token(token: str, db: Session):
-#     user = crud.get_user_by_username(db=db, username=token)
-#     return user
-
-
 def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
