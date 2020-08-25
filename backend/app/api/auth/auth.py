@@ -3,8 +3,6 @@ from jose import JWTError, jwt
 from fastapi import Depends
 from crud import crud
 from sqlalchemy.orm import Session
-# from api.deps import get_db
-# from api.routers.users import get_db
 from datetime import datetime, timedelta
 from typing import Optional
 
