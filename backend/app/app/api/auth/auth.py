@@ -1,10 +1,10 @@
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 from fastapi import Depends
-from crud import crud
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 from typing import Optional
+from app.crud import crud
 
 
 SECRET_KEY = "e41fae79f843957edfc3d3221bc58af4cf3d03a48c77e86f5d02c7f807f8194b"

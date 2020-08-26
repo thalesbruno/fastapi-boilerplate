@@ -2,5 +2,5 @@ FROM python:3.8
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements/dev.txt
-EXPOSE 8000
+WORKDIR /app/app
 CMD ["python", "-m", "pytest", "tests/"]

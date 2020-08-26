@@ -13,20 +13,16 @@ To run the application you need to have `Docker` and `docker-compose` installed.
 docker-compose up
 ```
 
-#### Create the test_app database
-The tests will fail at the first time we run `docker-compose up`, because the creation of `test_app` database is not present in the images build process. There's an [issue](https://github.com/thalesbruno/fastapi-boilerplate/issues/6) for fix this already.
+So, run the first migrate:
 
-At the moment, we need to execute the command below to create it
-```docker
-docker exec fastapi-boilerplate_db_1 psql -U app -c "create database test_app with owner app;"
+```bash
+docker exec fastapi-boilerplate_app_1 alembic upgrade head
 ```
-So, restart the tests container to run the tests again:
+
+To re-run the tests:
+
 ```docker
 docker-compose restart tests
-```
-To drop it:
-```docker
-docker exec fastapi-boilerplate_db_1 psql -U app -c "drop database test_app;"
 ```
 
 <!--
