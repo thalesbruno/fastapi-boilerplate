@@ -13,7 +13,7 @@ To run the application you need to have `Docker` and `docker-compose` installed.
 docker-compose up
 ```
 
-So, run the first migrate:
+So, run the first migration:
 
 ```bash
 docker exec fastapi-boilerplate_app_1 alembic upgrade head
