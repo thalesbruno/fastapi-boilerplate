@@ -28,12 +28,10 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@router.get("/users", response_model=List[schemas.User], tags=['users'])
-def read_users(
-        skip: int = 0, limit: int = 100,
-        # current_user dependency needs to come first of db dependecy
-        current_user: schemas.User = Depends(get_current_user),
-        db: Session = Depends(get_db)):
+@router.get("/users",
+            response_model=List[schemas.User], tags=['users'],
+            dependencies=[Depends(get_current_user)])
+def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_users(db=db, skip=skip, limit=limit)
     return users
 
