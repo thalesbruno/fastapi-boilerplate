@@ -1,12 +1,12 @@
 from fastapi import APIRouter, HTTPException, Depends, status
-from crud import crud
-from api.deps import get_db, oauth2_scheme, get_current_user
 from sqlalchemy.orm import Session
-from api.schemas import schemas
 from typing import List
 from fastapi.security import OAuth2PasswordRequestForm
-from api.auth import auth
 from datetime import timedelta
+from app.crud import crud
+from app.api.deps import get_db, oauth2_scheme, get_current_user
+from app.api.auth import auth
+from app.api.schemas import schemas
 
 
 router = APIRouter()

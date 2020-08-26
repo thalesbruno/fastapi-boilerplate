@@ -10,6 +10,12 @@ services:
         depends_on:
             - db
             - tests
+        environment: 
+            - POSTGRES_USER=app
+            - POSTGRES_PASSWORD=app
+            - POSTGRES_SERVER=db
+            - POSTGRES_DB=app
+            - PYTHONPATH=/app
     tests:
         build:
             context: ./backend/app
@@ -17,7 +23,13 @@ services:
         volumes:
             - ./backend/app:/app
         depends_on: 
-            - db
+            - db_test
+        environment: 
+            - POSTGRES_USER=app
+            - POSTGRES_PASSWORD=app
+            - POSTGRES_SERVER=db_test
+            - POSTGRES_DB=test_app
+            - PYTHONPATH=/app
     db:
         image: postgres:12.4
         restart: always
@@ -25,3 +37,11 @@ services:
             # if user, pass, and db changes, need to remove previous containers # docker-compose rm -vf
             - POSTGRES_USER=app
             - POSTGRES_PASSWORD=app
+    db_test:
+        image: postgres:12.4
+        restart: always
+        environment:
+            # if user, pass, and db changes, need to remove previous containers # docker-compose rm -vf
+            - POSTGRES_USER=app
+            - POSTGRES_PASSWORD=app
+            - POSTGRES_DB=test_app

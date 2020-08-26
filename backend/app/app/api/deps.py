@@ -1,11 +1,11 @@
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException, status
 from jose import jwt, JWTError
-from database.setup import SessionLocal
 from sqlalchemy.orm import Session
-from api.schemas import schemas
-from crud import crud
-from api.auth.auth import SECRET_KEY, ALGORITHM
+from app.api.schemas import schemas
+from app.crud import crud
+from app.api.auth.auth import SECRET_KEY, ALGORITHM
+from app.database.setup import SessionLocal
 
 
 def get_db():

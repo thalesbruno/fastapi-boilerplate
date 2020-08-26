@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from database.setup import engine
-from models import models
-from api.routers import items, users
+# from app.database.setup import engine
+# from app.models import models
+from app.api.routers import items, users
 
 
-models.Base.metadata.create_all(bind=engine)
+# models.Base.metadata.create_all(bind=engine)
 
 tags_metadata = [
     {
