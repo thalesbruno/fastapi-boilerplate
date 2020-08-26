@@ -10,8 +10,8 @@ from main import app
 def get_url():
     user = os.getenv("POSTGRES_USER", "")
     password = os.getenv("POSTGRES_PASSWORD", "")
-    server = os.getenv("POSTGRES_SERVER", "db")
-    db = os.getenv("POSTGRES_DB", "app")
+    server = os.getenv("POSTGRES_SERVER", "db_test")
+    db = os.getenv("POSTGRES_DB", "test_app")
     return f"postgres://{user}:{password}@{server}/{db}"
 
 

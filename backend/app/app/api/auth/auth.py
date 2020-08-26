@@ -4,7 +4,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 from typing import Optional
-from app.crud import crud
+from app.crud import crud_user
 
 
 SECRET_KEY = "e41fae79f843957edfc3d3221bc58af4cf3d03a48c77e86f5d02c7f807f8194b"
@@ -24,7 +24,7 @@ def get_password_hash(password):
 
 
 def authenticate_user(username: str, password: str, db: Session = Depends()):
-    user = crud.get_user_by_username(db, username)
+    user = crud_user.get_user_by_username(db, username)
     if not user:
         return False
     if not verify_password(password, user.hashed_password):

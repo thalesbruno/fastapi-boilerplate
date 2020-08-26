@@ -25,8 +25,8 @@ services:
         depends_on: 
             - db_test
         environment: 
-            - POSTGRES_USER=app
-            - POSTGRES_PASSWORD=app
+            - POSTGRES_USER=test_app
+            - POSTGRES_PASSWORD=test_app
             - POSTGRES_SERVER=db_test
             - POSTGRES_DB=test_app
             - PYTHONPATH=/app
@@ -42,6 +42,5 @@ services:
         restart: always
         environment:
             # if user, pass, and db changes, need to remove previous containers # docker-compose rm -vf
-            - POSTGRES_USER=app
-            - POSTGRES_PASSWORD=app
-            - POSTGRES_DB=test_app
+            - POSTGRES_USER=test_app
+            - POSTGRES_PASSWORD=test_app

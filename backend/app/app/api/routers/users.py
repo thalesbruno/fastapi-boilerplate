@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
-from app.crud import crud
+from app.crud import crud_user
 from app.api.deps import get_db, oauth2_scheme, get_current_user
 from app.api.auth import auth
 from app.api.schemas import schemas
@@ -32,7 +32,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
             response_model=List[schemas.User], tags=['users'],
             dependencies=[Depends(get_current_user)])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = crud.get_users(db=db, skip=skip, limit=limit)
+    users = crud_user.get_users(db=db, skip=skip, limit=limit)
     return users
 
 
@@ -46,7 +46,7 @@ def read_users_me(
 
 @router.get("/users/{user_id}", response_model=schemas.User, tags=['users'])
 def read_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user(db=db, user_id=user_id)
+    db_user = crud_user.get_user(db=db, user_id=user_id)
     if db_user is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
@@ -55,22 +55,22 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 @router.post("/users", response_model=schemas.User, tags=['users'])
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_email(db=db, email=user.email)
+    db_user = crud_user.get_user_by_email(db=db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400,
                             detail="Email already registered")
-    return crud.create_user(db=db, user=user)
+    return crud_user.create_user(db=db, user=user)
 
 
 @router.post("/users/{user_id}/items", response_model=schemas.Item, tags=['users'])
 def create_item_for_user(item: schemas.ItemCreate, user_id: int, db: Session = Depends(get_db)):
-    return crud.create_user_item(db=db, item=item, user_id=user_id)
+    return crud_user.create_user_item(db=db, item=item, user_id=user_id)
 
 
 @router.delete("/users/{user_id}", tags=['users'])
 def remove_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user(db=db, user_id=user_id)
+    db_user = crud_user.get_user(db=db, user_id=user_id)
     if not db_user:
         raise HTTPException(status_code=400, detail="User not found")
-    crud.delete_user(db=db, user=db_user)
+    crud_user.delete_user(db=db, user=db_user)
     return {"detail": f"User with id {db_user.id} successfully deleted"}
