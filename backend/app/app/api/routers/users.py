@@ -6,7 +6,8 @@ from datetime import timedelta
 from app.crud import crud_user
 from app.api.deps import get_db, oauth2_scheme, get_current_user
 from app.api.auth import auth
-from app.api.schemas import schemas
+from app.api.schemas.user import UserSchema, UserCreate
+from app.api.schemas.item import ItemCreate, ItemSchema
 
 
 router = APIRouter()
@@ -29,22 +30,22 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 
 
 @router.get("/users",
-            response_model=List[schemas.User], tags=['users'],
+            response_model=List[UserSchema], tags=['users'],
             dependencies=[Depends(get_current_user)])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud_user.get_users(db=db, skip=skip, limit=limit)
     return users
 
 
-@router.get("/users/me", response_model=schemas.User, tags=['users'])
+@router.get("/users/me", response_model=UserSchema, tags=['users'])
 def read_users_me(
-    current_user: schemas.User = Depends(get_current_user),
+    current_user: UserSchema = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     return current_user
 
 
-@router.get("/users/{user_id}", response_model=schemas.User, tags=['users'])
+@router.get("/users/{user_id}", response_model=UserSchema, tags=['users'])
 def read_user(user_id: int, db: Session = Depends(get_db)):
     db_user = crud_user.get_user(db=db, user_id=user_id)
     if db_user is None:
@@ -53,8 +54,8 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
-@router.post("/users", response_model=schemas.User, tags=['users'])
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+@router.post("/users", response_model=UserSchema, tags=['users'])
+def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = crud_user.get_user_by_email(db=db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400,
@@ -62,8 +63,8 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud_user.create_user(db=db, user=user)
 
 
-@router.post("/users/{user_id}/items", response_model=schemas.Item, tags=['users'])
-def create_item_for_user(item: schemas.ItemCreate, user_id: int, db: Session = Depends(get_db)):
+@router.post("/users/{user_id}/items", response_model=ItemSchema, tags=['users'])
+def create_item_for_user(item: ItemCreate, user_id: int, db: Session = Depends(get_db)):
     return crud_user.create_user_item(db=db, item=item, user_id=user_id)
 
 

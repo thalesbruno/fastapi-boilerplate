@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, Integer, String, Column, Boolean
+from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.orm import relationship
 from app.database.setup import Base
 
@@ -14,14 +14,3 @@ class User(Base):
 
     items = relationship("Item", back_populates="owner",
                          cascade="all, delete")
-
-
-class Item(Base):
-    __tablename__ = "items"
-
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(String, index=True)
-    owner_id = Column(Integer, ForeignKey("users.id"))
-
-    owner = relationship("User", back_populates="items")
