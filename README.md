@@ -19,9 +19,24 @@ So, run the first migration:
 docker exec fastapi-boilerplate_app_1 alembic upgrade head
 ```
 
-To re-run the tests:
+
+### Tests
+
+To re-run the tests, first of all, recreate the tests database:
+
+Remove the data files before recreate the container
+```
+rm -fr db_data_test/*
+```
+Recreate the db_test service
 
 ```docker
+docker-compose stop db_test
+docker-compose rm db_test
+docker-compose up -d db_test
+```
+Finally, restart the tests service
+```
 docker-compose restart tests
 ```
 

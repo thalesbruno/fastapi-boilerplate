@@ -5,3 +5,5 @@ __pycache__
 *.ipynb
 .ipynb_checkpoints
 .pytest_cache
+db_data
+db_data_test

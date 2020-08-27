@@ -37,6 +37,8 @@ services:
             # if user, pass, and db changes, need to remove previous containers # docker-compose rm -vf
             - POSTGRES_USER=app
             - POSTGRES_PASSWORD=app
+        volumes:
+            - ./db_data:/var/lib/postgresql/data
     db_test:
         image: postgres:12.4
         restart: always
@@ -44,3 +46,5 @@ services:
             # if user, pass, and db changes, need to remove previous containers # docker-compose rm -vf
             - POSTGRES_USER=test_app
             - POSTGRES_PASSWORD=test_app
+        volumes:
+            - ./db_data_test:/var/lib/postgresql/data
