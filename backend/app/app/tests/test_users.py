@@ -63,10 +63,32 @@ def test_create_existent_user():
     }
 
 
+def test_user_authenticate(username: str = "test", password: str = "password"):
+    response = client.post(
+        "/token",
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        data={"username": f"{username}", "password": f"{password}"}
+    )
+    return response.json()["access_token"]
+    assert response.status_code == 200
+
+
+def test_read_user_me():
+    token = test_user_authenticate()
+    response = client.get(
+        "/users/me",
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    assert response.status_code == 200
+
+
 # Now, this needs authentication
-# def test_read_users():
-#     response = client.get("/users")
-#     assert response.status_code == 200
+def test_read_users():
+    token = test_user_authenticate()
+    response = client.get(
+        "/users",
+        headers={"Authorization": f"Bearer {token}"})
+    assert response.status_code == 200
 
 
 def test_read_user():
