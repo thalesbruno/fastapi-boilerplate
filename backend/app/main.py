@@ -1,10 +1,7 @@
 from fastapi import FastAPI
-# from app.database.setup import engine
-# from app.models import models
 from app.api.routers import items, users
+from app.core.config import settings
 
-
-# models.Base.metadata.create_all(bind=engine)
 
 tags_metadata = [
     {
@@ -26,7 +23,7 @@ tags_metadata = [
 ]
 
 app = FastAPI(
-    title="My App",
+    title=settings.APP_NAME,
     description="This is a very fancy project, with auto docs for the API and everything",
     version="0.0.1",
     openapi_tags=tags_metadata

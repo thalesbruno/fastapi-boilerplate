@@ -1,18 +1,18 @@
-import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
 from main import app
 from app.api.deps import get_db
 from app.database.base import Base
+from app.core.config import settings
 
 
 def get_url():
-    user = os.getenv("POSTGRES_USER", "")
-    password = os.getenv("POSTGRES_PASSWORD", "")
-    server = os.getenv("POSTGRES_SERVER", "db_test")
-    db = os.getenv("POSTGRES_DB", "test_app")
-    return f"postgres://{user}:{password}@{server}/{db}"
+    user = settings.POSTGRES_USER
+    password = settings.POSTGRES_PASSWORD
+    db = settings.POSTGRES_DB
+    server = settings.POSTGRES_SERVER
+    return f"postgresql://{user}:{password}@{server}/{db}"
 
 
 SQLALCHEMY_DATABASE_URL = get_url()

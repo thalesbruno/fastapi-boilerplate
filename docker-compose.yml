@@ -13,8 +13,8 @@ services:
         environment: 
             - POSTGRES_USER=app
             - POSTGRES_PASSWORD=app
-            - POSTGRES_SERVER=db
             - POSTGRES_DB=app
+            - POSTGRES_SERVER=db
             - PYTHONPATH=/app
     tests:
         build:
@@ -27,8 +27,8 @@ services:
         environment: 
             - POSTGRES_USER=test_app
             - POSTGRES_PASSWORD=test_app
-            - POSTGRES_SERVER=db_test
             - POSTGRES_DB=test_app
+            - POSTGRES_SERVER=db_test
             - PYTHONPATH=/app
     db:
         image: postgres:12.4
