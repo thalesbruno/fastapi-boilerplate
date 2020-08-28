@@ -30,7 +30,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 
 
 @router.get("/users",
-            response_model=List[UserSchema], tags=['users'],
+            response_model=List[UserSchema], tags=['admin'],
             dependencies=[Depends(get_current_user)])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud_user.get_users(db=db, skip=skip, limit=limit)
@@ -63,12 +63,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     return crud_user.create_user(db=db, user=user)
 
 
-@router.post("/users/{user_id}/items", response_model=ItemSchema, tags=['users'])
-def create_item_for_user(item: ItemCreate, user_id: int, db: Session = Depends(get_db)):
-    return crud_user.create_user_item(db=db, item=item, user_id=user_id)
-
-
-@router.delete("/users/{user_id}", tags=['users'])
+@router.delete("/users/{user_id}", tags=['admin'])
 def remove_user(user_id: int, db: Session = Depends(get_db)):
     db_user = crud_user.get_user(db=db, user_id=user_id)
     if not db_user:

@@ -9,11 +9,19 @@ from app.api.routers import items, users
 tags_metadata = [
     {
         "name": "users",
-        "description": "Operations with users."
+        "description": "Operations with users"
     },
     {
         "name": "items",
-        "description": "Operations with items."
+        "description": "Operations with items"
+    },
+    {
+        "name": "admin",
+        "description": "Admin operations"
+    },
+    {
+        "name": "auth",
+        "description": "Authenticate operations"
     }
 ]
 

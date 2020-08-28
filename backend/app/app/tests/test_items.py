@@ -1,7 +1,4 @@
-from fastapi.testclient import TestClient
-from main import app
-
-client = TestClient(app)
+from app.tests.setup import client
 
 
 def test_read_items():
