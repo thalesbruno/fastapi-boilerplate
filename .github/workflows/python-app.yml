@@ -10,8 +10,9 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  container-job:
     runs-on: ubuntu-latest
+    container: python:3.8
 
     services:
       db:
