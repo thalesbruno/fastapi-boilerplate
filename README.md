@@ -1,4 +1,6 @@
 # FastAPI boilerplate (with PostgreSQL)
+![example workflow name](https://github.com/thalesbruno/fastapi-boilerplate/workflows/FastAPI%20Boilerplate%20Application/badge.svg)
+
 A boilerplate RESTFul application code using FastAPI and PostgreSQL
 
 ## Structure
