@@ -9,7 +9,6 @@ services:
             - 8001:8000
         depends_on:
             - db
-            - tests
         environment: 
             - POSTGRES_USER=app
             - POSTGRES_PASSWORD=app
