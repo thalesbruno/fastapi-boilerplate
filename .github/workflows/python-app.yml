@@ -49,7 +49,7 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: DB first migration
         env:
-          PYTHONPATH: ./backend/app
+          PYTHONPATH: .
         run: |
           alembic upgrade head
         working-directory: ./backend/app
