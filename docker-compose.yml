@@ -1,49 +1,59 @@
-version: '3'
-services: 
-    app:
-        build:
-            context: ./backend/app
-        volumes:
-            - ./backend/app:/app
-        ports:
-            - 8001:8000
-        depends_on:
-            - db
-        environment: 
-            - POSTGRES_USER=app
-            - POSTGRES_PASSWORD=app
-            - POSTGRES_DB=app
-            - POSTGRES_SERVER=db
-            - PYTHONPATH=/app
-    tests:
-        build:
-            context: ./backend/app
-            dockerfile: Dockerfile-tests
-        volumes:
-            - ./backend/app:/app
-        depends_on: 
-            - db_test
-        environment: 
-            - POSTGRES_USER=test_app
-            - POSTGRES_PASSWORD=test_app
-            - POSTGRES_DB=test_app
-            - POSTGRES_SERVER=db_test
-            - PYTHONPATH=/app
-    db:
-        image: postgres:12.4
-        restart: always
-        environment:
-            # if user, pass, and db changes, need to remove previous containers # docker-compose rm -vf
-            - POSTGRES_USER=app
-            - POSTGRES_PASSWORD=app
-        volumes:
-            - ./db_data:/var/lib/postgresql/data
-    db_test:
-        image: postgres:12.4
-        restart: always
-        environment:
-            # if user, pass, and db changes, need to remove previous containers # docker-compose rm -vf
-            - POSTGRES_USER=test_app
-            - POSTGRES_PASSWORD=test_app
-        volumes:
-            - ./db_data_test:/var/lib/postgresql/data
+version: "3"
+services:
+  app:
+    build:
+      context: ./backend/app
+    volumes:
+      - ./backend/app:/app
+    ports:
+      - 8001:8000
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=app
+      - POSTGRES_DB=app
+      - POSTGRES_SERVER=db
+      - PYTHONPATH=/app
+  tests:
+    build:
+      context: ./backend/app
+      dockerfile: Dockerfile-tests
+    volumes:
+      - ./backend/app:/app
+    depends_on:
+      - db_test
+    environment:
+      - POSTGRES_USER=test_app
+      - POSTGRES_PASSWORD=test_app
+      - POSTGRES_DB=test_app
+      - POSTGRES_SERVER=db_test
+      - PYTHONPATH=/app
+  db:
+    image: postgres:12.4
+    restart: always
+    environment:
+      # if user, pass, and db changes, need to remove previous containers # docker-compose rm -vf
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=app
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  db_test:
+    image: postgres:12.4
+    restart: always
+    environment:
+      # if user, pass, and db changes, need to remove previous containers # docker-compose rm -vf
+      - POSTGRES_USER=test_app
+      - POSTGRES_PASSWORD=test_app
+    volumes:
+      - ./db_data_test:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_app"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
