@@ -5,7 +5,7 @@ name: FastAPI Boilerplate Application
 
 on:
   push:
-    branches: [master]
+    branches: [master, dev]
     paths-ignore:
       - "README.md"
       - "docker-compose.yml"
