@@ -18,28 +18,35 @@ docker-compose up
 So, run the first migration:
 
 ```bash
-docker exec fastapi-boilerplate_app_1 alembic upgrade head
+docker-compose exec app alembic upgrade head
 ```
 
 
 ### Tests
+**To run the tests:**
 
-To re-run the tests, first of all, recreate the tests database:
+```
+docker-compose exec app pytest
+```
+
+**To re-run the tests**, firstly, we recreate the database because there are unit tests which create resources, so if it already exists the test will fail:
 
 Remove the data files before recreate the container
 ```
-rm -fr db_data_test/*
+rm -fr db_data/*
 ```
-Recreate the db_test service
+Recreate the db service:
 
 ```docker
-docker-compose stop db_test
-docker-compose rm db_test
-docker-compose up -d db_test
+docker-compose stop db
+docker-compose rm db
+docker-compose up -d db
 ```
-Finally, restart the tests service
+
+Finally, re-run the migration and the tests:
 ```
-docker-compose restart tests
+docker-compose exec app alembic upgrade head
+docker-compose exec app pytest
 ```
 
 <!--
