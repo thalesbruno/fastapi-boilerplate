@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends, status
+from fastapi import APIRouter, HTTPException, Depends, status, BackgroundTasks
 from sqlalchemy.orm import Session
 from typing import List
 from fastapi.security import OAuth2PasswordRequestForm
@@ -55,11 +55,13 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/users", response_model=UserSchema, tags=['users'])
-def create_user(user: UserCreate, db: Session = Depends(get_db)):
+def create_user(user: UserCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     db_user = crud_user.get_user_by_email(db=db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400,
                             detail="Email already registered")
+    # Create a background task to send an email to the new user
+    # background_tasks.add_task(send_email, user.email, message="some message")
     return crud_user.create_user(db=db, user=user)
 
 
