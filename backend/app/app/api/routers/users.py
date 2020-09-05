@@ -8,6 +8,7 @@ from app.api.deps import get_db, oauth2_scheme, get_current_user
 from app.api.auth import auth
 from app.api.schemas.user import UserSchema, UserCreate
 from app.api.schemas.item import ItemCreate, ItemSchema
+from app.services.messaging.email import send_email
 
 
 router = APIRouter()
@@ -60,8 +61,8 @@ def create_user(user: UserCreate, background_tasks: BackgroundTasks, db: Session
     if db_user:
         raise HTTPException(status_code=400,
                             detail="Email already registered")
-    # Create a background task to send an email to the new user
-    # background_tasks.add_task(send_email, user.email, message="some message")
+    background_tasks.add_task(send_email, user.email,
+                              message=f"You've created your account!")
     return crud_user.create_user(db=db, user=user)
 
 
