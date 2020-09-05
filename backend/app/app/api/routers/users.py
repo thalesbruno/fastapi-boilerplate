@@ -9,6 +9,7 @@ from app.api.auth import auth
 from app.api.schemas.user import UserSchema, UserCreate
 from app.api.schemas.item import ItemCreate, ItemSchema
 from app.services.messaging.email import send_email
+from app.core.config import settings
 
 
 router = APIRouter()
@@ -61,8 +62,9 @@ def create_user(user: UserCreate, background_tasks: BackgroundTasks, db: Session
     if db_user:
         raise HTTPException(status_code=400,
                             detail="Email already registered")
-    background_tasks.add_task(send_email, user.email,
-                              message=f"You've created your account!")
+    if settings.SMTP_SERVER != "your_stmp_server_here":
+        background_tasks.add_task(send_email, user.email,
+                                  message=f"You've created your account!")
     return crud_user.create_user(db=db, user=user)
 
 

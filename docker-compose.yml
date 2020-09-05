@@ -15,7 +15,7 @@ services:
       - POSTGRES_DB=app
       - POSTGRES_SERVER=db
       - PYTHONPATH=/app
-      - SMTP_SERVER=<your_stmp_server_here>
+      - SMTP_SERVER=your_stmp_server_here
   db:
     image: postgres:12.4
     restart: always
